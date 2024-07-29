@@ -7,11 +7,13 @@ import { Group } from './typeorm/entities/Group';
 import { Messages } from './typeorm/entities/Messages';
 import { UserModule } from './user/user.module';
 import { GroupModule } from './group/group.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
     UserModule,
     GroupModule,
+    MessagesModule,
     TypeOrmModule.forRoot({
       type: 'postgres', 
       host: 'localhost',
@@ -23,7 +25,6 @@ import { GroupModule } from './group/group.module';
       synchronize: true,
     }),
     TypeOrmModule.forFeature([User , Group , Messages]),
-    GroupModule,
     
   ],
   controllers: [AppController],
