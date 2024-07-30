@@ -5,20 +5,27 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './typeorm/entities/User';
 import { Group } from './typeorm/entities/Group';
 import { Messages } from './typeorm/entities/Messages';
-
+import { UserModule } from './user/user.module';
+import { GroupModule } from './group/group.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
+    UserModule,
+    GroupModule,
+    MessagesModule,
     TypeOrmModule.forRoot({
       type: 'postgres', 
       host: 'localhost',
       port: 5432, 
       username: 'postgres',
       password: 'root',
-      database: 'chatApp',
+      database: 'app_chat',
       entities: [User,Group,Messages],
-      synchronize: true, 
+      synchronize: true,
     }),
+    TypeOrmModule.forFeature([User , Group , Messages]),
+    
   ],
   controllers: [AppController],
   providers: [AppService],
