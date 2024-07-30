@@ -14,8 +14,17 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     const user = this.userRepository.create(createUserDto);
-       return await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save(user);
+    return { id: savedUser.id };
   }
+  async validateUser(username: string, password: string): Promise<User | null> {
+    const user = await this.userRepository.findOne({ where: { username } });
+    if (user && user.password === password) {
+      return user;
+    }
+    return null;
+  }
+
 
   async findAll() {
     return await this.userRepository.find();
