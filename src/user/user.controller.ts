@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete , UnauthorizedException  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,14 +7,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
   
-  
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log('Received POST request to /user');
-    console.log('Request body:', createUserDto);
-    const result = await this.userService.create(createUserDto);
-    return result;
+    try {
+      const result = await this.userService.create(createUserDto);
+      return result;
+    } catch (error) {
+      if (error instanceof ConflictException) {//check 
+        throw new ConflictException('Username already exists');
+      }
+      throw error;
+    }
   }
+
   @Post('login')
   async login(@Body() loginData: { username: string; password: string }) {
     const user = await this.userService.validateUser(loginData.username, loginData.password);
