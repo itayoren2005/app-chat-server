@@ -12,8 +12,8 @@ export class MessagesService {
     @InjectRepository(Messages)
     private readonly messagesRepository: Repository<Messages>,
   ) {}
-  async create(CreateMessageDto: CreateMessageDto) {
-    const message = this.messagesRepository.create(CreateMessageDto);
+  async create(createMessageDto: CreateMessageDto) {
+    const message = this.messagesRepository.create(createMessageDto);
        return await this.messagesRepository.save(message);
   }
 
