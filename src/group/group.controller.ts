@@ -9,7 +9,7 @@ export class GroupController {
 
   @Post()
   create(@Body() CreateGroupDto: CreateGroupDto) {
-    console.log('Received POST request to /user');
+    console.log('Received POST request to /group');//debuging
     console.log('Request body:', CreateGroupDto);
     return this.groupService.create(CreateGroupDto);
   }
