@@ -26,7 +26,7 @@ export class User {
   @OneToMany(() => Messages, (messeges) => messeges.user)
   messeges: Messages[];
 
-  @ManyToMany(() => Group)
-  @JoinTable()
-  group: Group[];
+  @ManyToMany(() => Group, (group) => group.users)
+  groups: Group[];
+
 }

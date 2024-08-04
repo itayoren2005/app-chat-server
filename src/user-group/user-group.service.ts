@@ -19,17 +19,17 @@ export class UserGroupService {
     const group = await this.groupRepository.findOne({ where: { id: groupId } });
 
     if (user && group) {
-      if (!user.group) {
-        user.group = [];
+      if (!user.groups) {
+        user.groups = [];
       }
-      user.group.push(group);
+      user.groups.push(group);
       await this.userRepository.save(user);
     }
   }
 
   async getGroupsForUser(userId: number): Promise<Group[]> {
     const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['group'] });
-    return user ? user.group : [];
+    return user ? user.groups : [];
   }
 
   async getUsersInGroup(groupId: number): Promise<User[]> {
@@ -42,8 +42,8 @@ export class UserGroupService {
   async removeUserFromGroup(userId: number, groupId: number): Promise<void> {
     const user = await this.userRepository.findOne({ where: { id: userId }, relations: ['group'] });
 
-    if (user && user.group) {
-      user.group = user.group.filter(group => group.id !== groupId);
+    if (user && user.groups) {
+      user.groups = user.groups.filter(group => group.id !== groupId);
       await this.userRepository.save(user);
     }
   }

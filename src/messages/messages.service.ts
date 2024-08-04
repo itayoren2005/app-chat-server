@@ -39,7 +39,6 @@ export class MessagesService {
     const message = this.messagesRepository.create({
       data: createMessageDto.content,
       time: createMessageDto.time,
-      date: createMessageDto.date,
       user,
       group,
     });
@@ -51,7 +50,6 @@ export class MessagesService {
     return await this.messagesRepository.find({
       where: { group: { id: groupId } },
       relations: ['user', 'group'],
-      order: { date: 'ASC' },
     });
   }
 

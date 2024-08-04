@@ -8,8 +8,8 @@ export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
   @Post()
-  create(@Body() CreateGroupDto: CreateGroupDto) {
-    return this.groupService.create(CreateGroupDto);
+  create(@Body() createGroupDto: CreateGroupDto) {
+    return this.groupService.create(createGroupDto);
   }
 
   @Get()
@@ -30,5 +30,16 @@ export class GroupController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.groupService.remove(+id);
+  }
+
+  @Post(':groupId/join')
+  async joinGroup(@Param('groupId') groupId: string, @Body('userId') userId: number) {
+    await this.groupService.addUserToGroup(+groupId, userId);
+    return { message: 'User added to group successfully' };
+  }
+
+  @Get('user/:userId')
+  async getUserGroups(@Param('userId') userId: string) {
+    return this.groupService.getGroupsForUser(+userId);
   }
 }

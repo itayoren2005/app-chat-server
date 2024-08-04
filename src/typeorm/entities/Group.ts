@@ -23,5 +23,9 @@ export class Group {
   @OneToMany(() => Messages, (messeges) => messeges.group)//need to check 
   messeges: Messages[];
 
+  @ManyToMany(() => User, (user) => user.groups)
+  @JoinTable()
+  users: User[];
+
   
 }
