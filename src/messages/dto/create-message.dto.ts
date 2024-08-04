@@ -1,5 +1,5 @@
 export class CreateMessageDto {
-  data: string;
+  content: string;
   time: string;
   date: Date;
   userId: number;

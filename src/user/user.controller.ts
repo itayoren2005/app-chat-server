@@ -13,7 +13,7 @@ export class UserController {
       const result = await this.userService.create(createUserDto);
       return result;
     } catch (error) {
-      if (error instanceof ConflictException) {//check 
+      if (error instanceof ConflictException) {
         throw new ConflictException('Username already exists');
       }
       throw error;

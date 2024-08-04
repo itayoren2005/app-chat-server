@@ -28,5 +28,5 @@ export class User {
 
   @ManyToMany(() => Group)
   @JoinTable()
-  group: Group[];//////////probebly a mistake because i changed it only here //////
+  group: Group[];
 }
