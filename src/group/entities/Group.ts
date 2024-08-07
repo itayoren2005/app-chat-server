@@ -6,8 +6,8 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Messages } from './Messages';
-import { User } from './User';
+import { Messages } from '../../messages/entities/Messages';
+import { User } from 'src/user/entities/User';
 
 @Entity()
 export class Group {
@@ -25,7 +25,7 @@ export class Group {
 
   @ManyToMany(() => User, (user) => user.groups)
   @JoinTable()
-  users: User[];
+  users:User[];
 
   
 }

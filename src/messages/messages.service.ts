@@ -3,9 +3,9 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Messages } from 'src/typeorm/entities/Messages';
-import { User } from 'src/typeorm/entities/User';
-import { Group } from 'src/typeorm/entities/Group';
+import { Group } from 'src/group/entities/Group';
+import { User } from 'src/user/entities/User';
+import { Messages } from './entities/Messages';
 
 
 type RecivedMessage={

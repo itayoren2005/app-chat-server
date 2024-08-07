@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessagesController } from './messages.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Messages } from 'src/typeorm/entities/Messages';
 import { MessagesGateway } from './messages.gateway';
-import { User } from 'src/typeorm/entities/User';
-import { Group } from 'src/typeorm/entities/Group';
+import { Group } from 'src/group/entities/Group';
+import { User } from 'src/user/entities/User';
+import { Messages } from './entities/Messages';
 
 
 @Module({
