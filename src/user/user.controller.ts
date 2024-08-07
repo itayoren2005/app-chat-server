@@ -38,6 +38,14 @@ export class UserController {
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
+  @Get('/getUsername/:id')
+  findOnesUsername(@Param('id') id: string) {
+    return this.userService.findOnesUsername(+id);
+  }
+  @Get('/getAvatar/:id')
+  findOnesAvatar(@Param('id') id: string) {
+    return this.userService.findOnesAvatar(+id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

@@ -37,6 +37,12 @@ export class UserService {
   async findOne(id: number) {
     return await this.userRepository.findOne({where:{id}}) ;
   }
+  async findOnesUsername(id:number){
+    return (await this.userRepository.findOne({where:{id}})).username;
+  }
+  async findOnesAvatar(id:number){
+    return (await this.userRepository.findOne({where:{id}})).avatar;
+  }
 
    async update(id: number, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
