@@ -20,7 +20,7 @@ export class Group {
   @Column()
   avatar: string;
 
-  @OneToMany(() => Messages, (messeges) => messeges.group)//need to check 
+  @OneToMany(() => Messages, (messeges) => messeges.group)
   messeges: Messages[];
 
   @ManyToMany(() => User, (user) => user.groups)

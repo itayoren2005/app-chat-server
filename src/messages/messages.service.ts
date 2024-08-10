@@ -7,16 +7,6 @@ import { Group } from 'src/group/entities/Group';
 import { User } from 'src/user/entities/User';
 import { Messages } from './entities/Messages';
 
-
-type RecivedMessage={
-  data: string;
-  time: string;
-  date: Date;
-  user: User;
-  group: Group;
-};
-
-
 @Injectable()
 export class MessagesService {
   constructor(
@@ -50,8 +40,10 @@ export class MessagesService {
     return await this.messagesRepository.find({
       where: { group: { id: groupId } },
       relations: ['user', 'group'],
+      order: { id: 'ASC' }, 
     });
   }
+  
 
   async findAll() {
     return await this.messagesRepository.find();

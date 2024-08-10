@@ -5,6 +5,7 @@ import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Group } from './entities/Group';
 import { User } from 'src/user/entities/User';
+import { In } from 'typeorm';
 
 @Injectable()
 export class GroupService {
@@ -18,8 +19,9 @@ export class GroupService {
   async create(createGroupDto: CreateGroupDto) {
     const group = this.groupRepository.create(createGroupDto);
     
-    if (createGroupDto.users && createGroupDto.users.length > 0) {
-      const users = await this.userRepository.findByIds(createGroupDto.users.map(u => u.id));
+    if (createGroupDto.users.length > 0) {
+      const userIds = createGroupDto.users.map(user => user.id);
+      const users = await this.userRepository.findBy({ id: In(userIds) });
       group.users = users;
     }
     
@@ -59,7 +61,7 @@ export class GroupService {
       throw new NotFoundException('Group or User not found');
     }
 
-    if (!group.users.some(u => u.id === userId)) {
+    if (!group.users.some(user => user.id === userId)) { 
       group.users.push(user);
       await this.groupRepository.save(group);
     }
