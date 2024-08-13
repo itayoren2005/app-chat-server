@@ -38,6 +38,22 @@ export class GroupService {
     const group = await this.groupRepository.findOne({ where: { id } });
     return group.name;
   }
+  async findMembers(id: number) {
+    const group = await this.groupRepository.findOne({
+      where: { id },
+      relations: ['users'],
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${id} not found`);
+    }
+    const memberIds = group.users.map((user) => user.id);
+    const members = await this.userRepository.find({
+      where: {
+        id: In(memberIds),
+      },
+    });
+    return members;
+  }
 
   async update(id: number, updateGroupDto: UpdateGroupDto) {
     const group = await this.findOne(id);

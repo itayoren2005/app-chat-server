@@ -33,6 +33,10 @@ export class GroupController {
   findName(@Param('id') id: string) {
     return this.groupService.findName(+id);
   }
+  @Get('members/:id')
+  findMembers(@Param('id') id: string) {
+    return this.groupService.findMembers(+id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
