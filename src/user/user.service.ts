@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -13,7 +17,9 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const existingUser = await this.userRepository.findOne({ where: { username: createUserDto.username } });
+    const existingUser = await this.userRepository.findOne({
+      where: { username: createUserDto.username },
+    });
     if (existingUser) {
       throw new ConflictException('Username already exists');
     }
@@ -22,12 +28,11 @@ export class UserService {
     return { id: savedUser.id };
   }
 
-  async validateUser(username: string, password: string): Promise<User | null> {
+  async validateUser(username: string, password: string): Promise<number> {
     const user = await this.userRepository.findOne({ where: { username } });
     if (user && user.password === password) {
-      return user;
-    }
-    return null;
+      return user.id;
+    } else throw new UnauthorizedException('Invalid credentials');
   }
 
   async findAll() {
@@ -35,31 +40,12 @@ export class UserService {
   }
 
   async findOne(id: number) {
-    return await this.userRepository.findOne({where:{id}}) ;
+    return await this.userRepository.findOne({ where: { id } });
   }
-  async findOnesUsername(id:number){
-    return (await this.userRepository.findOne({where:{id}})).username;
+  async findOnesUsername(id: number) {
+    return (await this.userRepository.findOne({ where: { id } })).username;
   }
-  async findOnesAvatar(id:number){
-    return (await this.userRepository.findOne({where:{id}})).avatar;
-  }
-
-   async update(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.findOne(id);
-    if(!user)
-    {
-      throw new NotFoundException();
-    }
-    Object.assign(user,updateUserDto); 
-    return await this.userRepository.save(user);
-  }
-
-  async remove(id: number) {
-    const user = await this.findOne(id);
-    if(!user)
-    {
-      throw new NotFoundException();
-    }
-    return await this.userRepository.remove(user);
+  async findOnesAvatar(id: number) {
+    return (await this.userRepository.findOne({ where: { id } })).avatar;
   }
 }

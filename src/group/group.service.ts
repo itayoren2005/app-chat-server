@@ -54,24 +54,6 @@ export class GroupService {
     });
     return members;
   }
-
-  async update(id: number, updateGroupDto: UpdateGroupDto) {
-    const group = await this.findOne(id);
-    if (!group) {
-      throw new NotFoundException('Group not found');
-    }
-    Object.assign(group, updateGroupDto);
-    return await this.groupRepository.save(group);
-  }
-
-  async remove(id: number) {
-    const group = await this.findOne(id);
-    if (!group) {
-      throw new NotFoundException('Group not found');
-    }
-    return await this.groupRepository.remove(group);
-  }
-
   async addUserToGroup(groupId: number, userId: number): Promise<void> {
     const group = await this.groupRepository.findOne({
       where: { id: groupId },

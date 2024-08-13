@@ -1,4 +1,4 @@
-import { Injectable , NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -19,8 +19,12 @@ export class MessagesService {
   ) {}
 
   async create(createMessageDto: CreateMessageDto) {
-    const user = await this.userRepository.findOne({ where: { id: createMessageDto.userId } });
-    const group = await this.groupRepository.findOne({ where: { id: createMessageDto.groupId } });
+    const user = await this.userRepository.findOne({
+      where: { id: createMessageDto.userId },
+    });
+    const group = await this.groupRepository.findOne({
+      where: { id: createMessageDto.groupId },
+    });
 
     if (!user || !group) {
       throw new NotFoundException('User or Group not found');
@@ -40,39 +44,19 @@ export class MessagesService {
     return await this.messagesRepository.find({
       where: { group: { id: groupId } },
       relations: ['user', 'group'],
-      order: { id: 'ASC' }, 
+      order: { id: 'ASC' },
     });
   }
-  
 
   async findAll() {
     return await this.messagesRepository.find();
   }
 
   async findOne(id: number) {
-    return await this.messagesRepository.findOne({where:{id}}) ;
+    return await this.messagesRepository.findOne({ where: { id } });
   }
 
   async findOneMessage(user: User, group: Group): Promise<Messages | null> {
     return this.messagesRepository.findOne({ where: { user, group } });
-  }
-
-   async update(id: number, updatemessageDto: UpdateMessageDto) {
-    const message = await this.findOne(id);
-    if(!message)
-    {
-      throw new NotFoundException();
-    }
-    Object.assign(message,updatemessageDto); 
-    return await this.messagesRepository.save(message);
-  }
-
-  async remove(id: number) {
-    const message = await this.findOne(id);
-    if(!message)
-    {
-      throw new NotFoundException();
-    }
-    return await this.messagesRepository.remove(message);
   }
 }

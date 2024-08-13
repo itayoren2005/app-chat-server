@@ -38,16 +38,6 @@ export class GroupController {
     return this.groupService.findMembers(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
-    return this.groupService.update(+id, updateGroupDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.groupService.remove(+id);
-  }
-
   @Post(':groupId/join')
   async joinGroup(
     @Param('groupId') groupId: string,
