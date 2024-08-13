@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
@@ -20,7 +28,11 @@ export class GroupController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.groupService.findOne(+id);
-  }  
+  }
+  @Get('name/:id')
+  findName(@Param('id') id: string) {
+    return this.groupService.findName(+id);
+  }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateGroupDto: UpdateGroupDto) {
@@ -33,7 +45,10 @@ export class GroupController {
   }
 
   @Post(':groupId/join')
-  async joinGroup(@Param('groupId') groupId: string, @Body('userId') userId: number) {
+  async joinGroup(
+    @Param('groupId') groupId: string,
+    @Body('userId') userId: number,
+  ) {
     await this.groupService.addUserToGroup(+groupId, userId);
     return { message: 'User added to group successfully' };
   }
