@@ -37,6 +37,10 @@ export class GroupController {
   findMembers(@Param('id') id: string) {
     return this.groupService.findMembers(+id);
   }
+  @Get('private/:id')
+  findPrivate(@Param('id') id: string) {
+    return this.groupService.findPrivate(+id);
+  }
 
   @Post(':groupId/join')
   async joinGroup(

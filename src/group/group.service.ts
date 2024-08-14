@@ -38,6 +38,10 @@ export class GroupService {
     const group = await this.groupRepository.findOne({ where: { id } });
     return group.name;
   }
+  async findPrivate(id: number) {
+    const group = await this.groupRepository.findOne({ where: { id } });
+    return group.isPrivate;
+  }
   async findMembers(id: number) {
     const group = await this.groupRepository.findOne({
       where: { id },

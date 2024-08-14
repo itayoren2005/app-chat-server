@@ -19,13 +19,13 @@ export class Group {
 
   @Column()
   avatar: string;
+  @Column()
+  isPrivate: boolean;
 
   @OneToMany(() => Messages, (messeges) => messeges.group)
   messeges: Messages[];
 
   @ManyToMany(() => User, (user) => user.groups)
   @JoinTable()
-  users:User[];
-
-  
+  users: User[];
 }
